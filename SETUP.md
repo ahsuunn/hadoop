@@ -258,6 +258,13 @@ jps
 stop-yarn.sh && stop-dfs.sh
 ```
 
+Nothing here is a systemd service: the daemons are ordinary processes owned by
+your session, so **a reboot stops the whole cluster** and nothing listens on
+`:9000` any more. `java.net.ConnectException: Connection refused` from
+`hdfs dfs` means exactly that, not a broken config. HDFS content survives,
+because it now lives in `/home/malik/hadoop_tmp` rather than in `/tmp`.
+Restarting is the two commands above; no reformat.
+
 Web UI: NameNode <http://localhost:9870>, ResourceManager <http://localhost:8088>.
 
 Daemon startup logs: `/var/log/hadoop/hadoop-malik-<daemon>-omarchy.log`.
