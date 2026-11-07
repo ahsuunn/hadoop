@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Single-node (pseudo-distributed) Hadoop configuration.
+  Kept per-user instead of /etc/hadoop so it needs no root.
+  Point HADOOP_CONF_DIR here (see SETUP.md).
+-->
+<configuration>
+
+  <!-- HDFS is reached through this URI -->
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://localhost:9000</value>
+  </property>
+
+  <!--
+    ROOT OF ALL HADOOP ON-DISK STATE.
+    Upstream default is /tmp/hadoop-${user.name}. /tmp on this machine is a
+    7.7 GB tmpfs (RAM), so a 672 MB dataset plus shuffle spills lives in
+    memory and dies on reboot. Moved to real disk on purpose.
+  -->
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/home/malik/hadoop_tmp</value>
+  </property>
+
+</configuration>

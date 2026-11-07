@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <!-- Was UNSET before, which silently made this a local-mode install:
+       hadoop jar ran in the client JVM and never touched YARN at all. -->
+  <property>
+    <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+  </property>
+
+  <!-- The reference manual writes HADOOP_MAPRED_HOME=$HADOOP_HOME. There is no
+       tarball install here, so HADOOP_HOME is unset and that value would
+       expand to an empty string, breaking the MRAppMaster container launch.
+       /usr is the equivalent of HADOOP_HOME for this distro package
+       (mapreduce jars live in /usr/share/hadoop/mapreduce). -->
+  <property>
+    <name>yarn.app.mapreduce.am.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr</value>
+  </property>
+  <property>
+    <name>mapreduce.map.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr</value>
+  </property>
+  <property>
+    <name>mapreduce.reduce.env</name>
+    <value>HADOOP_MAPRED_HOME=/usr</value>
+  </property>
+
+</configuration>

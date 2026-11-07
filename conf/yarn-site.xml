@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<configuration>
+
+  <!-- Was EMPTY before. Without the shuffle service every MapReduce job on
+       YARN fails once it reaches the reduce phase. -->
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+  </property>
+
+  <!-- Same tmpfs problem as hadoop.tmp.dir: these default to
+       /tmp/hadoop-${user.name} and would hold container files plus shuffle
+       data for a 672 MB input. Moved to real disk. -->
+  <property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/home/malik/hadoop_tmp/yarn/local</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/home/malik/hadoop_tmp/yarn/log</value>
+  </property>
+
+  <!-- Machine has 15 GB RAM with the desktop already holding ~8 GB. 6 GB is a
+       realistic ceiling for this NodeManager instead of the 8 GB default. -->
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>6144</value>
+  </property>
+  <property>
+    <name>yarn.scheduler.maximum-allocation-mb</name>
+    <value>6144</value>
+  </property>
+
+  <!-- Classic single-node failure on bigger inputs: the JVM reserves far more
+       virtual address space than it ever uses, and the default 2.1x physical
+       check kills the container with "running beyond virtual memory limits".
+       Physical memory accounting stays enabled. -->
+  <property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+  </property>
+
+</configuration>

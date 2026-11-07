@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <!-- Pseudo-distributed: one DataNode, so exactly one replica -->
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+
+  <!-- Made explicit rather than inherited from hadoop.tmp.dir, so the
+       location is obvious when reading this file -->
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:///home/malik/hadoop_tmp/dfs/name</value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///home/malik/hadoop_tmp/dfs/data</value>
+  </property>
+
+  <!-- 2006.csv arrives as one ~672 MB file; the default 128 MB block size
+       gives ~6 splits and so ~6 mappers. Left at the upstream default. -->
+
+  <!-- Keeps hdfs dfs -cat of a large part-r-00000 from timing out -->
+  <property>
+    <name>dfs.client.socket-timeout</name>
+    <value>600000</value>
+  </property>
+
+</configuration>
